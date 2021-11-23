@@ -1,0 +1,18 @@
+*{
+    margin:0px;
+    padding:0px;
+    font-family: 'Estonia', cursive;
+}
+body{
+    position: absolute;
+    top:50%;
+    left:40%;
+    right:35%;
+    bottom: 50%;
+    background-color: rgb(214, 202, 202);
+}
+h1{
+    width:500px;
+    height:120px;
+}
+
