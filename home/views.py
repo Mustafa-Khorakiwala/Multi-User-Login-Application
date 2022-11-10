@@ -19,7 +19,7 @@ def student_register(request):
         name = request.POST.get('name')
         email = request.POST.get('email')
         rollno = request.POST.get('rollno')
-        password = request.POST.get('password')
+        password = hash(request.POST.get('password'))
         s = Student.objects.filter(rollno=rollno)
         s1 = Student.objects.filter(email=email)
         t1 = Teacher.objects.filter(email=email)
@@ -40,7 +40,7 @@ def teacher_register(request):
         name = request.POST.get('name')
         email = request.POST.get('email')
         staffcode = request.POST.get('staffcode')
-        password = request.POST.get('password')
+        password = hash(request.POST.get('password'))
         t = Teacher.objects.filter(staffcode=staffcode)
         s1 = Student.objects.filter(email=email)
         t1 = Teacher.objects.filter(email=email)
@@ -61,7 +61,7 @@ def person_register(request):
         name = request.POST.get('name')
         email = request.POST.get('email')
         phone = request.POST.get('phoneno')
-        password = request.POST.get('password')
+        password = hash(request.POST.get('password'))
         p = Person.objects.filter(phone=phone)
         s1 = Student.objects.filter(email=email)
         t1 = Teacher.objects.filter(email=email)
@@ -79,7 +79,7 @@ def person_register(request):
 def login(request):
     if request.method=="POST":
         email = request.POST.get('email')
-        password = request.POST.get('password')
+        password = hash(request.POST.get('password'))
         s1 = Student.objects.filter(email=email)
         t1 = Teacher.objects.filter(email=email)
         p1 = Person.objects.filter(email=email)
@@ -202,20 +202,21 @@ def forgot_password(request):
             messages.add_message(request, 50, "Password mismatch")
             return render(request, 'forgot_password.html')
         else:
+            var = hash(passnew)
             if temp1=='student':
-                s = Student(name=temp[0].name,email=temp[0].email,rollno=temp[0].rollno,password=passnew,date=datetime.today())
+                s = Student(name=temp[0].name,email=temp[0].email,rollno=temp[0].rollno,password=var,date=datetime.today())
                 temp.delete()
                 s.save()
                 temp=None
                 temp1=None
             elif temp1=='teacher':
-                t = Teacher(name=temp[0].name,email=temp[0].email,staffcode=temp[0].staffcode,password=passnew,date=datetime.today())
+                t = Teacher(name=temp[0].name,email=temp[0].email,staffcode=temp[0].staffcode,password=var,date=datetime.today())
                 temp.delete()
                 t.save()
                 temp=None
                 temp1=None
             elif temp1=='person':
-                p = Person(name=temp[0].name,email=temp[0].email,phone=temp[0].phone,password=passnew,date=datetime.today())
+                p = Person(name=temp[0].name,email=temp[0].email,phone=temp[0].phone,password=var,date=datetime.today())
                 temp.delete()
                 p.save()
                 temp=None
